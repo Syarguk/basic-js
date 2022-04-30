@@ -15,7 +15,7 @@ describe('Extended repeater', () => {
       expect(repeater).to.exist;
     });
   });
-
+  
   //Specific requirements
 
   describe('base & functional requirements', () => {
