@@ -10,34 +10,46 @@ const { NotImplementedError } = require('../extensions/index.js');
  *
  * @example
  * 
- * repeater('STRING', { repeatTimes: 3, separator: '**', 
- * addition: 'PLUS', additionRepeatTimes: 3, additionSeparator: '00' })
- * => 'STRINGPLUS00PLUS00PLUS**STRINGPLUS00PLUS00PLUS**STRINGPLUS00PLUS00PLUS'
+ * repeater('STRING', { repeatTimes: 3, separator: '**', addition: 'PLUS', additionRepeatTimes: 3, additionSeparator: '00' })
+ * 
+ * => 'STRING PLUS 00 PLUS 00 PLUS ** STRING PLUS 00 PLUS 00 PLUS ** STRING PLUS 00 PLUS 00 PLUS'
  *
  */
 function repeater( str, options ) {
-  let reStr = str;
-  if ("repeatTimes" in options) {
-      for (let i = 1; i < options.repeatTimes; i++) {
-        if ("additionRepeatTimes" in options) {
-            for (let j = 0; j < options.additionRepeatTimes; j++) {
-                if ("additionSeparator" in options) {
-                    reStr += options.additionSeparator + options.addition;
-                } else {
+    let reStr = String(str);
+    if ("addition" in options) reStr += options.addition;
+    if ("additionRepeatTimes" in options) {
+        for (let i = 1; i < options.additionRepeatTimes; i++) {
+            if ("additionSeparator" in options) {
+                reStr += options.additionSeparator;
+            } else {
+                reStr += "|";
+            }
+            reStr += options.addition;
+        }
+    }
+    if ("repeatTimes" in options) {
+        for (let j = 1; j < options.repeatTimes; j++) {
+            if ("separator" in options) {
+                reStr += options.separator; 
+            } else {
+                reStr += "+";
+            }
+            reStr += str;
+            if ("addition" in options) reStr += options.addition;
+            if ("additionRepeatTimes" in options) {
+                for (let i = 1; i < options.additionRepeatTimes; i++) {
+                    if ("additionSeparator" in options) {
+                        reStr += options.additionSeparator;
+                    } else {
+                        reStr += "|";
+                    }
                     reStr += options.addition;
                 }
             }
         }
-        if ("separator" in options) {
-            reStr += options.separator + str;
-        } else {
-            reStr += str;
-        }
-      }
-  } else if ("addition" in options) {
-      reStr += options.addition;
-  }
-  return reStr;
+    }
+    return reStr;
 }
 
 module.exports = {
